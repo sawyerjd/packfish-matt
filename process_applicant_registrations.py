@@ -6,19 +6,24 @@ import config as cfg
 results = {}
 
 
-# Functions are defined in functions.py
+# Functions
 def set_exams(exams):
-    # Define element values from form
+    # set_exams receives a list of exams the applicant is interested in taking.  The exams list will be parsed and
+    # the correct columns for the elements will be set.
+    # If element 3 and/or element 4 are selected, these selections should show up on the Applicant's
+    # registration form in Session Manager.
+
+    # define form field names
     element2 = 'Element 2 (Technician)'
     element3 = 'Element 3 (General)'
     element4 = 'Element 4 (Amateur Extra)'
 
-    # Define column headings for requested tests, for csv file
+    # Define column heading names to be used with the csv file.
     req_element_3 = 'REQUESTED_ELEMENT_3'
     req_element_4 = 'REQUESTED_ELEMENT_4'
-    print(f'Exams: {exams}')
+
+    # loop through each exam and set corresponding element name and value.
     for exam in exams:
-        print(f'Exam: {exam}')
         if exam == element2:
             # if element 2, set element 3 and 4 to false
             results[cfg.Header.fields[req_element_3]] = False
@@ -30,6 +35,9 @@ def set_exams(exams):
         if exam == element4:
             results[cfg.Header.fields[req_element_4]] = True
     return None
+
+# TODO: add logging to script.
+# TODO: add logic to output dictionary items to a csv.  Reference: https://pythonguides.com/python-dictionary-to-csv/
 
 
 # main code
@@ -52,18 +60,18 @@ def main():
             name = ""
             value = ""
             td = row.findAll('td')
-            """
+
             # parse each row to get the field name and field value.
             # field name will contain '*:' and the will need to be stripped out.
             # the first td item should be the field name with *:, ex first name*:
             # the second td item should be the value
-            """
+
             for item in td:
                 if item.text.find("*:") != -1:
                     name = item.text.strip().replace("*:", "")
                 else:
                     value = item.text.strip()
-
+            # before adding the name/value pair to the results dictionary, check for required modifications.
             # Check for items that need updated before adding to csv file
             if name == 'Middle Initial' and value.upper() == 'NONE':
                 # If Middle Initial is NONE, set value to empty string
