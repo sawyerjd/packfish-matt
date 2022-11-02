@@ -1,5 +1,3 @@
-from doctest import Example
-from unittest import result
 from imap_tools import MailBox, AND
 from bs4 import BeautifulSoup
 import config as cfg
