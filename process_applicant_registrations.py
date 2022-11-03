@@ -2,7 +2,7 @@ from imap_tools import MailBox, AND
 from bs4 import BeautifulSoup
 import config as cfg
 
-# define results file
+# define results file test
 results = {}
 
 
